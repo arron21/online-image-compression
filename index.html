@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Image Compression</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <h1>🖼 Online Image Compression</h1>
+  <p>Compress JPEG, PNG, WebP & BMP images directly in your browser — no upload required.</p>
+</header>
+
+<main>
+  <!-- ── Upload card ── -->
+  <div class="upload-card">
+    <div class="drop-zone" id="dropZone">
+      <!-- image icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0
+                 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+      </svg>
+      <p>Drag &amp; drop an image here, or <strong>click to browse</strong></p>
+      <input type="file" id="fileInput" accept="image/*" />
+    </div>
+
+    <!-- Compression options -->
+    <div class="options">
+      <div class="option-group">
+        <label for="maxSizeMB">Max size (MB)</label>
+        <input type="number" id="maxSizeMB" value="1" min="0.1" max="50" step="0.1" />
+      </div>
+      <div class="option-group">
+        <label for="maxWidthOrHeight">Max width / height (px)</label>
+        <input type="number" id="maxWidthOrHeight" value="1920" min="100" max="10000" step="10" />
+      </div>
+    </div>
+
+    <button id="compressBtn" disabled>Compress Image</button>
+
+    <!-- Progress -->
+    <div id="progressWrapper">
+      <p id="progressLabel">Compressing… 0%</p>
+      <progress id="progressBar" value="0" max="100"></progress>
+    </div>
+
+    <!-- Error -->
+    <div id="errorMsg" role="alert"></div>
+  </div>
+
+  <!-- ── Results ── -->
+  <div id="results">
+    <!-- Original -->
+    <div class="image-card">
+      <h2>Original <span class="badge badge-blue">Before</span></h2>
+      <img id="originalImg" src="" alt="Original image preview" />
+      <p class="image-info" id="originalInfo"></p>
+    </div>
+
+    <!-- Compressed -->
+    <div class="image-card">
+      <h2>Compressed <span class="badge badge-green">After</span></h2>
+      <img id="compressedImg" src="" alt="Compressed image preview" />
+      <p class="image-info" id="compressedInfo"></p>
+      <a id="downloadBtn" style="display:none">⬇ Download Compressed Image</a>
+    </div>
+  </div>
+</main>
+
+<!-- browser-image-compression via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
