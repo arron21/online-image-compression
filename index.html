@@ -4,71 +4,91 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Online Image Compression</title>
+  <link rel="stylesheet" href="tuicss.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="tui-bg-blue-black">
 
-<header>
-  <h1>🖼 Online Image Compression</h1>
-  <p>Compress JPEG, PNG, WebP & BMP images directly in your browser — no upload required.</p>
-</header>
+<!-- ── Navbar ── -->
+<nav class="tui-nav">
+  <ul>
+    <li><b>&#128444; Online Image Compression</b></li>
+  </ul>
+  <span class="tui-datetime" data-format="h:m:s a"></span>
+</nav>
 
-<main>
-  <!-- ── Upload card ── -->
-  <div class="upload-card">
-    <div class="drop-zone" id="dropZone">
-      <!-- image icon -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0
-                 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
-      </svg>
-      <p>Drag &amp; drop an image here, or <strong>click to browse</strong></p>
-      <input type="file" id="fileInput" accept="image/*" />
-    </div>
+<div class="app-container">
 
-    <!-- Compression options -->
-    <div class="options">
-      <div class="option-group">
-        <label for="maxSizeMB">Max size (MB)</label>
-        <input type="number" id="maxSizeMB" value="1" min="0.1" max="50" step="0.1" />
+  <!-- ── Upload window ── -->
+  <div class="tui-window full-width">
+    <fieldset class="tui-fieldset">
+      <legend class="center white-255-text">Upload &amp; Compress</legend>
+
+      <p class="white-168-text subtitle">Compress JPEG, PNG, WebP &amp; BMP images directly in your browser &#8212; no upload required.</p>
+
+      <!-- Drop zone -->
+      <div class="drop-zone" id="dropZone">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+        </svg>
+        <p>Drag &amp; drop an image here, or <b>click to browse</b></p>
+        <input type="file" id="fileInput" accept="image/*" />
       </div>
-      <div class="option-group">
-        <label for="maxWidthOrHeight">Max width / height (px)</label>
-        <input type="number" id="maxWidthOrHeight" value="1920" min="100" max="10000" step="10" />
+
+      <!-- Compression options -->
+      <div class="options">
+        <div class="option-group">
+          <label for="maxSizeMB">Max size (MB)</label><br />
+          <input class="tui-input" type="number" id="maxSizeMB" value="1" min="0.1" max="50" step="0.1" />
+        </div>
+        <div class="option-group">
+          <label for="maxWidthOrHeight">Max width / height (px)</label><br />
+          <input class="tui-input" type="number" id="maxWidthOrHeight" value="1920" min="100" max="10000" step="10" />
+        </div>
       </div>
-    </div>
 
-    <button id="compressBtn" disabled>Compress Image</button>
+      <div class="btn-row">
+        <button id="compressBtn" class="tui-button cyan-168 black-text" disabled>Compress Image</button>
+      </div>
 
-    <!-- Progress -->
-    <div id="progressWrapper">
-      <p id="progressLabel">Compressing… 0%</p>
-      <progress id="progressBar" value="0" max="100"></progress>
-    </div>
+      <!-- Progress -->
+      <div id="progressWrapper">
+        <p id="progressLabel" class="white-255-text">Compressing&#8230; 0%</p>
+        <div class="tui-progress-bar">
+          <span class="tui-progress cyan-255" id="progressBar" style="width: 0%"></span>
+        </div>
+      </div>
 
-    <!-- Error -->
-    <div id="errorMsg" role="alert"></div>
+      <!-- Error -->
+      <div id="errorMsg" role="alert"></div>
+    </fieldset>
   </div>
 
   <!-- ── Results ── -->
   <div id="results">
     <!-- Original -->
-    <div class="image-card">
-      <h2>Original <span class="badge badge-blue">Before</span></h2>
-      <img id="originalImg" src="" alt="Original image preview" />
-      <p class="image-info" id="originalInfo"></p>
+    <div class="tui-window">
+      <fieldset class="tui-fieldset">
+        <legend>Original <span class="cyan-255-text">[Before]</span></legend>
+        <img id="originalImg" src="" alt="Original image preview" class="preview-img" />
+        <p class="image-info" id="originalInfo"></p>
+      </fieldset>
     </div>
 
     <!-- Compressed -->
-    <div class="image-card">
-      <h2>Compressed <span class="badge badge-green">After</span></h2>
-      <img id="compressedImg" src="" alt="Compressed image preview" />
-      <p class="image-info" id="compressedInfo"></p>
-      <a id="downloadBtn" style="display:none">⬇ Download Compressed Image</a>
+    <div class="tui-window">
+      <fieldset class="tui-fieldset">
+        <legend>Compressed <span class="green-255-text">[After]</span></legend>
+        <img id="compressedImg" src="" alt="Compressed image preview" class="preview-img" />
+        <p class="image-info" id="compressedInfo"></p>
+        <a id="downloadBtn" class="tui-button green-168 white-text" style="display:none">&#11015; Download Compressed Image</a>
+      </fieldset>
     </div>
   </div>
-</main>
 
+</div>
+
+<script src="tuicss.min.js"></script>
 <!-- browser-image-compression (self-hosted, v2.0.2) -->
 <script src="browser-image-compression.js"></script>
 <script src="app.js"></script>

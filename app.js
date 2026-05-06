@@ -73,7 +73,7 @@ compressBtn.addEventListener('click', async () => {
     maxWidthOrHeight,
     useWebWorker: true,
     onProgress: (pct) => {
-      progressBar.value = pct;
+      progressBar.style.width = `${pct}%`;
       progressLabel.textContent = `Compressing… ${pct}%`;
     },
   };
@@ -93,9 +93,9 @@ compressBtn.addEventListener('click', async () => {
     let sizeNote;
     if (sizeDiff > 0) {
       const savedPct = ((sizeDiff / selectedFile.size) * 100).toFixed(1);
-      sizeNote = `<br><span class="badge badge-green">▼ ${savedPct}% smaller</span>`;
+      sizeNote = `<br><span class="green-255-text">▼ ${savedPct}% smaller</span>`;
     } else {
-      sizeNote = `<br><span class="badge badge-blue">Already optimized — no reduction</span>`;
+      sizeNote = `<br><span class="cyan-255-text">Already optimized — no reduction</span>`;
     }
     compressedInfo.innerHTML = formatInfo(compressedFile.name, compressedFile.size) + sizeNote;
 
@@ -120,7 +120,7 @@ function formatInfo(name, bytes) {
 
 function showProgress() {
   progressWrapper.style.display = 'block';
-  progressBar.value = 0;
+  progressBar.style.width = '0%';
   progressLabel.textContent = 'Compressing… 0%';
 }
 
