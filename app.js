@@ -95,7 +95,7 @@ compressBtn.addEventListener('click', async () => {
       const savedPct = ((sizeDiff / selectedFile.size) * 100).toFixed(1);
       sizeNote = `<br><span class="badge badge-green">▼ ${savedPct}% smaller</span>`;
     } else {
-      sizeNote = `<br><span class="badge badge-blue">Already optimised — no reduction</span>`;
+      sizeNote = `<br><span class="badge badge-blue">Already optimized — no reduction</span>`;
     }
     compressedInfo.innerHTML = formatInfo(compressedFile.name, compressedFile.size) + sizeNote;
 
