@@ -16,6 +16,8 @@ const compressedInfo = document.getElementById('compressedInfo');
 const downloadBtn = document.getElementById('downloadBtn');
 
 let selectedFile = null;
+let originalObjectUrl = null;
+let compressedObjectUrl = null;
 
 /* ── Drag-and-drop support ── */
 dropZone.addEventListener('dragover', (e) => {
@@ -48,8 +50,9 @@ function handleFileSelected(file) {
   compressBtn.disabled = false;
 
   /* Show original preview */
-  const url = URL.createObjectURL(file);
-  originalImg.src = url;
+  if (originalObjectUrl) URL.revokeObjectURL(originalObjectUrl);
+  originalObjectUrl = URL.createObjectURL(file);
+  originalImg.src = originalObjectUrl;
   originalInfo.innerHTML = formatInfo(file.name, file.size);
 
   /* Reset compressed panel */
@@ -82,15 +85,21 @@ compressBtn.addEventListener('click', async () => {
   try {
     const compressedFile = await imageCompression(selectedFile, options);
 
-    const compressedUrl = URL.createObjectURL(compressedFile);
-    compressedImg.src = compressedUrl;
+    if (compressedObjectUrl) URL.revokeObjectURL(compressedObjectUrl);
+    compressedObjectUrl = URL.createObjectURL(compressedFile);
+    compressedImg.src = compressedObjectUrl;
 
-    const savedPct = (((selectedFile.size - compressedFile.size) / selectedFile.size) * 100).toFixed(1);
-    compressedInfo.innerHTML =
-      formatInfo(compressedFile.name, compressedFile.size) +
-      `<br><span class="badge badge-green">▼ ${savedPct}% smaller</span>`;
+    const sizeDiff = selectedFile.size - compressedFile.size;
+    let sizeNote;
+    if (sizeDiff > 0) {
+      const savedPct = ((sizeDiff / selectedFile.size) * 100).toFixed(1);
+      sizeNote = `<br><span class="badge badge-green">▼ ${savedPct}% smaller</span>`;
+    } else {
+      sizeNote = `<br><span class="badge badge-blue">Already optimised — no reduction</span>`;
+    }
+    compressedInfo.innerHTML = formatInfo(compressedFile.name, compressedFile.size) + sizeNote;
 
-    downloadBtn.href = compressedUrl;
+    downloadBtn.href = compressedObjectUrl;
     downloadBtn.download = 'compressed_' + selectedFile.name;
     downloadBtn.style.display = 'inline-block';
   } catch (err) {
